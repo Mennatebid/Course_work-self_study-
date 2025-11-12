@@ -1,0 +1,39 @@
+'''' the below is an interpreter that takes parsed sequence and evaluates it 
+, we will check what happens when we define and call a function :
+
+(define (fizz a b) (+ a b))
+(fizz a b) '''
+'''
+step 1 : the parser send the below to the interpreter :
+args: [’begin’, [’def’, ’fizz’, [’a’, ’b’], [’+’, ’a’, ’b’]], [’fizz’, 3, 4]] Env: global
+which is a sequence of strings in a list all initialized in global environment of the 
+interpreter 
+
+step 2 : form isn't an integer so it fulfills the conditional that evaluates begin , with
+that all the elements after begin is evaluated and only the last value is returned 
+
+step 3: when the interpreter comes accross def it creates a tuple of the elements of form
+and adds to the environment a function instance that contains the params , body and parent 
+environment of the defined procedure  as a value mapped to the name of the procedure in the
+environment dictionary , it returns none cause it has no value
+
+args: [’def’, ’fizz’, [’a’, ’b’], [’+’, ’a’, ’b’]] Env: global result: None
+
+step 4: when the intepreter comes accross a list that begins with set it creates a tuple
+of the rest of the elements in the form of lhs and rhs and adds to the environment lhs as
+a key to the vlaue returned of spyeval(rhs,env)
+
+step 5: when the interpreter comes accross a list that its first element matches the object
+of a function it retuns the value of f.body which it the evaluation of the body of the function
+done in a new environment where function formal elements are evlauated in an instance of Environment
+
+args: [’fizz’, 3, 4] Env: global args: fizz Env: global
+result: <__main__.Function instance at 0x7b1df0> 
+args: 3 Env: global result: 3 args: 4 Env: global 
+args: [’+’, ’a’, ’b’] Env:{’a’: 3, ’b’: 4} result: 4 
+args: + Env:{’a’: 3, ’b’: 4} result: Primitive <built-in function add> 
+args: a Env:{’a’: 3, ’b’: 4} result: 3 
+args: b Env:{’a’: 3, ’b’: 4} result: 4 
+result: 7 
+result: 7 
+result: 7

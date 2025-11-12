@@ -1,0 +1,76 @@
+'''chatgpt designed a super problem to test me
+The Challenge: Super Solver
+
+Write a Python function superSolver(a, b, c, tol=1e-10) that:
+
+Quadratic Equation Handling
+
+If a ≠ 0, solve the quadratic equation ax² + bx + c = 0.
+
+If the roots are real, return them as floats.
+
+If the roots are complex, return them as complex numbers.
+
+If a = 0 but b ≠ 0, solve the linear equation bx + c = 0.
+
+If a = b = 0 and c = 0, return "Infinite solutions".
+
+If a = b = 0 but c ≠ 0, return "No solution".
+
+Verification (Newton’s Method)
+
+For each root found, use Newton’s Method to verify that plugging it 
+into the polynomial brings it close to 0 within the given tol.
+
+If verification fails, raise an error.
+
+Extra spice (Factorial + Pi check):
+
+If the discriminant is exactly -1, compute an approximation of π using your estimate_pi 
+function and also return 
+the difference between your approximation and Python’s math.pi. (Just to flex your earlier skills.)
+'''
+def SuperSolver(a,b,c):
+    roots = []
+    disc_sqr = b**2-4*a*c
+    if a != 0:
+        if disc_sqr > 0:
+            x_1 = (-b + sqrt(disc_sqr))/(2*a)
+            x_2 = (-b + sqrt(disc_sqr))/(2*a)
+            values = [x_1,x_2]
+            roots.extend(values)
+        elif disc_sqr < 0:
+            disc = sqrt(-disc_sqr)
+            disc_imag= complex(0,disc)
+            x_1 = (-b + disc_imag )/(2*a)
+            x_2 = (-b + disc_imag)/(2*a)
+            values= [x_1,x_2]
+            roots.extend(values)
+        elif disc_sqr == 0:
+            x = (-b)/(2*a)
+            roots.append(x)
+        return roots
+    if a == 0:
+        if b != 0:
+            x= -c/6
+        elif b == 0 and c !=0:
+            x= 'no solution'
+        elif b==0 and c == 0:
+            x = 'infinite solutions' 
+        roots.append(x)
+        return roots
+def test_super_solver():
+    tests =[
+        (1,-5,6), # two real roots
+        (1,4,4), #one real root
+        (1,2,3), # two complex roots
+        (0,2,-4), # linear
+        (0,0,8), # no solution
+        (0,0,0), # infinite solutions
+    ]
+    for a,b,c in tests:
+        print(f'Equation : {a}x^2+{b}x+c =0')
+        print(f'roots:{SuperSolver(a,b,c)}')
+test_super_solver()
+
+def newton_iteration():

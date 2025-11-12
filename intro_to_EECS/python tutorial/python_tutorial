@@ -1,0 +1,1009 @@
+#python tutorial
+'''Define a procedure multIAgen(m, n), which returns the product of m and n, both
+arguments are integers, but can be positive or negative. Don't use *, but assume that
+multIA from the last problem is already defined for you. Your function should have type
+(int, int) -> int '''
+'''
+def multIAgen(m,n):
+    x=0
+    if m== 0 or n ==0 :
+        return m*n
+    for i in range(1,abs(n)+1):
+        x+=abs(m)
+    if (m < 0) ^ (n < 0):
+        x = -x
+    return x
+multiple = multIAgen(-3,-5)
+print(multiple)
+'''
+
+'''
+Define a procedure mod(m, n), which returns m mod n, where both arguments are
+positive integers. Don't use %. Your function should have type (positiveInt,
+positiveInt) -> positiveInt '''
+'''def mod(m,n):
+    qoutient = m//n
+    remainder = m-qoutient*n
+    return remainder
+result = mod(2,2)
+print(result)
+
+def mod2(m,n):
+    while m >=n:
+        m-=n
+    return m
+result2 = mod(7,2)
+print(result2)'''
+
+'''Define a procedure div(m, n), which returns the integer part of m / n, where both
+arguments are positive integers. Don't use /. Your function should have type
+(positiveInt, positiveInt) -> positiveInt '''
+'''
+def div(m,n):
+    count = 0
+    while m >= n:
+        m-=n
+        count +=1
+    return count
+result = div(7,6)
+print(result)'''
+
+'''Define a procedure prime(n), which returns True if n is prime and False otherwise. It's
+okay if it's slow. Your function should have type (positiveInt) -> boolean '''
+'''from math import sqrt
+def prime(n):
+    if n <= 1:
+        return False
+    for i in range(1,int(sqrt(n))+1):
+        if n % i ==0:
+            return False
+    return  True
+
+result = prime(3)
+print(result)'''
+
+'''Define a procedure p2(x) that takes an integer parameter x. If x is greater than 1, the
+procedure returns the largest power of two that is less than x; otherwise, it returns 0.
+Use a loop. '''
+'''def p2(x):
+    if x <= 1 : 
+        return 0
+    p = 1
+    while p*2 < x:
+        p*=2
+    return p
+print(p2(16))
+print(p2(8))
+print(p2(1))
+print(p2(2)) '''
+
+'''
+Define a procedure perfectSquare(n), which returns True if n is a perfect square and
+False otherwise. Your function should have type (positiveInt) -> boolean '''
+'''from math import isqrt
+def perfectsquare(n):
+    if n < 0:
+        return False
+    root = isqrt(n)
+    return root*root == n
+print(perfectsquare(7))'''
+
+'''
+To test the square root algorithm in this chapter, you could compare it with math.sqrt. 
+Write a function named test_square_root that prints a table like this:
+
+1.0 1.0           1.0           0.0
+2.0 1.41421356237 1.41421356237 2.22044604925e-16
+3.0 1.73205080757 1.73205080757 0.0
+4.0 2.0           2.0           0.0
+5.0 2.2360679775  2.2360679775  0.0
+6.0 2.44948974278 2.44948974278 0.0
+7.0 2.64575131106 2.64575131106 0.0
+8.0 2.82842712475 2.82842712475 4.4408920985e-16
+9.0 3.0           3.0           0.0
+
+The first column is a number, a; the second column is the square root of a 
+computed with the function from Exercise 7.2; 
+the third column is the square root computed by math.sqrt; the fourth column is 
+the absolute value of the difference between the two estimates.'''
+'''from math import sqrt
+
+def my_square_root(n, step= 0.1):
+    guess = 0.5 * n if n > 1 else 1
+    while abs((guess*guess)-n) > step:
+        if guess*guess - n > step:
+            guess -=step
+        elif guess*guess -n <=step:
+            break
+    return guess
+def test_square_root(a):
+    mine = my_square_root(a)
+    lib = sqrt(a)
+    diff = abs(mine - lib)
+    return f"{a:<5} {mine:<20} {lib:<20} {diff:<20}"
+print (f"{"a":<5} {"my_square_root":<20} {"sqrt":<20} {"differnece":<20}")
+for a in range (1,40):
+    print(test_square_root(float(a)))'''
+'''
+The built-in function eval takes a string and evaluates it using the Python interpreter. 
+For example:
+
+>>> eval('1 + 2 * 3')
+7
+>>> import math
+>>> eval('math.sqrt(5)')
+2.2360679774997898
+>>> eval('type(math.pi)')
+<type 'float'>
+Write a function called eval_loop that iteratively prompts the user,
+ takes the resulting input and evaluates it using eval, and prints the result.
+
+It should continue until the user enters 'done', and then return the value of the
+ last expression it evaluated.'''
+'''
+def eval_loop():
+    while True:
+        last_experssion = None
+        prompt = input("please enter a value or enter done to exit: ")
+        if prompt == "done":
+            print("ok, bye")
+            break
+        else:
+            last_experssion= eval(prompt)
+            print(last_experssion)
+    return last_experssion
+eval_loop()
+'''
+
+
+
+'''
+The brilliant mathematician Srinivasa Ramanujan found an infinite series2 
+that can be used to generate a numerical approximation of π:
+1/pi = (2 * sqrt(2) / 9801) * Σ[k=0 → ∞] [ ( (4k)! * (1103 + 26390k) ) / ( (k!)^4 * 396^(4k) ) ]
+Write a function called estimate_pi that uses this formula to compute and return an estimate of π.
+ It should use a while loop to compute terms of the summation until the last term is smaller than 1e-15 (which is Python notation for 10−15).
+ You can check the result by comparing it to math.pi.'''
+'''
+from math import sqrt, factorial,pi
+def estimate_pi():
+    k=0
+    my_pi=0
+    cost_mul = (2*sqrt(2))/9801
+    while True:
+        numerator = factorial(4*k)*(1103+ 26390*k)
+        denomerator= (factorial(k)**4)* 396**(4*k)
+        term = cost_mul * (numerator)/denomerator
+        my_pi+= term
+        if term < 1e-15:
+            break
+        else:
+            k+=1
+    return 1/my_pi
+
+print(estimate_pi())
+print(abs(pi-estimate_pi()))'''
+
+'''
+Write a procedure quadraticRoots(a, b, c) that returns a list containing the two roots of
+the quadratic equation. The roots can be in either order.
+You should handle the case of a = 0 by returning the single root of that (linear)
+equation. Beware of dividing integers. '''
+'''
+from math import sqrt
+def quadraticRoots(a,b,c):
+    root=[]
+    if a==0:
+        x_lin= -c/b
+        root.append(x_lin)
+    elif a > 0 :
+        x1= (-b+(sqrt(b**2-4*a*c)))/(2*a)
+        x2= (-b-(sqrt(b**2-4*a*c)))/(2*a)
+        quad_roots= [x1,x2]
+        root.extend(quad_roots)
+        
+    return root
+solve = quadraticRoots(1,-5,6)
+print(solve)'''
+
+'''
+Try testing your solution to the previous problem with arguments quadraticRoots(1, 2,
+3). You'll get an error because the roots of the quadratic equation with those
+coefficients are complex.
+Python actually has complex numbers as a primitive data type. There are two ways to
+make a complex number:
+>>> complex(1, 2)
+(1+2j)
+>>> 1+2j
+(1+2j)
+If you want to get the parts out of a complex number, you can do the following:
+>>> thing = complex(1, 2)
+>>> thing.imag
+2.0
+>>> thing.real
+1.0
+You're probably used to using i for (-1)0.5. Just to confuse you, we're going to use j
+instead. Why? Because to an electrical engineer, i stands for current, and there's no
+arguing.
+Now, write a new procedure quadraticRootsComplex(a, b, c) that computes quadratic
+roots, as before (including the a=0 case), but works on any real arguments and
+returns complex roots if necessary. '''
+'''from math import sqrt
+def quadraticRootComplex(a,b,c):
+    def discriminant():
+        sqr_disc = b**2-4*a*c
+        if sqr_disc < 0:
+            sol_disc = -1* sqr_disc
+            disc= complex(0,sqrt(sol_disc))
+        elif sqr_disc > 0:
+            disc= sqrt(sqr_disc)
+        return disc
+    root=[]
+    if a==0:
+        x_lin= -c/b
+        root.append(x_lin)
+    elif a > 0 :
+        x1= (-b+(discriminant()))/(2*a)
+        x2= (-b-(discriminant()))/(2*a)
+        quad_roots= [x1,x2]
+        root.extend(quad_roots)
+        
+    return root
+solve = quadraticRootComplex(1,2,3)
+print(solve)'''
+'''
+def histogram(s):
+    d= dict()
+    for c in s :
+        d[c]= d.get(c,0)+1
+    return d
+h = histogram('brontosaurus')
+
+def print_hist(h):
+    return [(keys , h[keys]) for keys in sorted(h.keys())]
+print(print_hist(h))
+
+def reverse_lookup(d,v):
+    matches = []
+    for k in sorted(d):
+        if d[k] == v:
+            matches.append(k)
+    if matches:
+        return matches
+    else:
+        raise ValueError
+print(reverse_lookup(h,2))
+
+def invert_dict(d):
+    inv = dict()
+    for key in d:
+        val = d[key]
+        inv.setdefault(val,[]).append(key)
+    return inv
+print(invert_dict(h))
+
+def fibonacci (n):
+    if n == 0:
+        return 0
+    elif  n == 1:
+        return 1
+    else:
+        return fibonacci(n-1) + fibonacci(n-2)
+print(fibonacci(3))
+
+known = {0:0, 1:1}
+
+def fibonacci(n):
+    if n in known:
+        return known[n]
+    res = fibonacci(n-1) + fibonacci(n-2)
+    known[n] = res
+    return res
+print(fibonacci(1))'''
+'''
+def sumall(*args):
+    sum_all = 0
+    my_list = list(args)
+    for i in my_list:
+        sum_all+=i
+    return sum_all
+t= (1,2,3,4,5,6)
+print(sumall(*t))'''
+'''
+def word_length(words:list):
+    lst = []
+    longest = []
+    for word in words:
+        lst.append((len(word),word))
+    lst.sort(reverse=True)
+    for i in lst:
+        longest.append(i[1])
+    return longest
+print(word_length(["menna", "gero", "lolipop"]))'''
+
+'''Exercise 9  
+
+A string slice can take a third index that specifies the “step size;” that is, 
+the number of spaces between successive characters. A step size of 2 means every other character; 3 means every third, etc.
+
+>>> fruit = 'banana'
+>>> fruit[0:5:2]
+'bnn'
+A step size of -1 goes through the word backwards, so the slice [::-1] generates a reversed string.
+
+
+Use this idiom to write a one-line version of is_palindrome from Exercise 6.6.'''
+''''
+# chatgpt solution to long version
+def is_palindrome(x):
+    for i in range(len(x) // 2):
+        if x[i] != x[-i - 1]:
+            return False
+    return True
+
+
+def short_is_palindrome(x):
+    return x == x[::-1]'''
+
+
+
+''''exercise 10  
+Read the documentation of the string methods at docs.python.org/lib/string-methods.html. 
+You might want to experiment with some of them to make sure you understand how they work. strip and replace are particularly useful.
+
+The documentation uses a syntax that might be confusing. For example, in find(sub[, start[, end]]), 
+the brackets indicate optional arguments. So sub is required, but start is optional, and if you include start, then end is optional.'''
+
+'''Exercise 11   The following functions are all intended to check whether a string contains any lowercase letters,
+but at least some of them are wrong. For each function, describe what the function actually does (assuming that the parameter is a string).
+def any_lowercase1(s):
+    for c in s:
+        if c.islower():
+            return True
+        else:
+            return False
+checks the first letter only
+
+def any_lowercase2(s):
+    for c in s:
+        if 'c'.islower():
+            return 'True'
+        else:
+            return 'False'
+this one may run and give output but it does the wrong thing as it checks if the letter "c" is in lower case and will always return true
+
+def any_lowercase3(s):
+    for c in s:
+        flag = c.islower()
+    return flag
+checks last letter only
+    
+def any_lowercase4(s):
+    flag = False
+    for c in s:
+        flag = flag or c.islower()
+    return flag
+this one is correct 
+
+def any_lowercase5(s):
+    for c in s:
+        if not c.islower():
+            return False
+    return True
+    
+    this one returns true only if all letters are lower
+
+    '''
+
+
+'''Exercise 12  
+ROT13 is a weak form of encryption that involves “rotating” each letter in a word by 13 places1.
+ To rotate a letter means to shift it through the alphabet, wrapping around to the beginning if necessary, 
+ so ’A’ shifted by 3 is ’D’ and ’Z’ shifted by 1 is ’A’.
+
+Write a function called rotate_word that takes a string and an integer as parameters, 
+and that returns a new string that contains the letters from the original string “rotated” by the given amount.
+
+For example, “cheer” rotated by 7 is “jolly” and “melon” rotated by -10 is “cubed”.
+
+You might want to use the built-in functions ord, which converts a character to a numeric code, and chr, 
+which converts numeric codes to characters.
+
+Potentially offensive jokes on the Internet are sometimes encoded in ROT13. If you are not easily offended, find and decode some of them.'''
+'''
+def my_rot_13(word:str,step:int):
+    lst = []
+    for i in range(0,len(word)):
+        crypt = ord(word[i])
+        shift = (crypt - ord("a")+ step)%26 + ord("a")
+        decrypt = chr(shift)
+        lst.append(decrypt)
+    return " ".join(lst)
+print(my_rot_13("V'z abg n ebg13 pbqr, V'z whfg na nccyvpngvba bs pbby qvssrerag jnlf gb guvax.",13))
+    
+'''
+'''Exercise 3   Write a function called is_sorted that takes a list as a parameter and returns True if the list is sorted in 
+ascending order and False otherwise. You can assume (as a precondition) that the elements of the list can be compared with the relational
+ operators <, >, etc.
+
+For example, is_sorted([1,2,2]) should return True and is_sorted(['b','a']) should return False.
+
+def is_sorted(param:list):
+    compared_lst = sorted(param)
+    flag = False
+    for i in range(len(param)):
+        if param[i] == compared_lst[i]:
+            flag = True or False
+    return flag
+print(is_sorted(['b','a']))
+        
+Exercise 4  
+
+Two words are anagrams if you can rearrange the letters from one to spell the other. Write a function called is_anagram that 
+takes two strings and returns True if they are anagrams.
+'''
+'''
+def is_anagram(x,y):
+    return sorted(x.replace(" ","").lower()) ==sorted(y.replace(" ","").lower())
+print(is_anagram("menna","gerom"))
+'''
+'''
+Exercise 5  
+The (so-called) Birthday Paradox:
+
+
+Write a function called has_duplicates that takes a list and returns True if there is any element that appears more than once. 
+It should not modify the original list.
+If there are 23 students in your class, what are the chances that two of you have the same birthday? 
+You can estimate this probability by generating random samples of 23 birthdays and checking for matches. Hint:
+ you can generate random birthdays with the randint function in the random module.
+
+You can read about this problem at wikipedia.org/wiki/Birthday_paradox, and you can see my solution at thinkpython.com/code/birthday.py.
+
+import random
+def generate_birthdays(n):
+    """Generate a list of n random birthdays (as numbers 1–365)."""
+    return [random.randint(1, 365) for _ in range(n)]
+def has_duplicates(B_days:list):
+    my_lst=[]
+    for i in B_days:
+        if i not in my_lst:
+            my_lst.append(i)
+        elif i in my_lst:
+            return True
+    return False
+print(has_duplicates(generate_birthdays(23)))
+
+def birthday_probability(trials=10000, n=23): # chatgpt did this one cause i am bad at probability
+    count = 0
+    for _ in range(trials):
+        birthdays = generate_birthdays(n)
+        if has_duplicates(birthdays):
+            count += 1
+    return count / trials
+
+print(f"Estimated probability for {23} people: {birthday_probability()*100:.2f}%")
+
+
+
+Exercise 6  
+
+Write a function called remove_duplicates that takes a list and returns a new list with only the unique elements from the original. 
+Hint: they don’t have to be in the same order.
+def remove_duplicates(elements:list):
+    unique_lst = []
+    for i in elements:
+        if i not in unique_lst:
+            unique_lst.append(i)
+        else:
+            continue
+    return unique_lst
+print(remove_duplicates([1,1,2,3,4,3,4,5,6,7,8]))
+
+
+Exercise 7  
+Write a function that reads the file words.txt and builds a list with one element per word. Write two versions of this function, 
+one using the append method and the other using the idiom t = t + [x]. Which one takes longer to run? Why?
+
+You can see my solution at thinkpython.com/code/wordlist.py.
+
+def corpus():
+    lst = []
+    with open("word.txt.txt") as f:
+        for i in f:
+            if i not in lst:
+                lst.append(i.strip().lower())
+            else:
+                continue
+    return lst
+print(corpus())
+
+def corpus2():
+    lst2=[]
+    with open("word.txt.txt") as f:
+        for i in f:
+            if i not in lst2:
+                lst2 = lst2 + [i.strip().lower()]
+            else:
+                continue
+    return lst2
+print(corpus2())
+
+
+
+
+Exercise 8  
+
+
+To check whether a word is in the word list, you could use the in operator, but it would be slow because it searches through the words in order.
+
+Because the words are in alphabetical order, we can speed things up with a bisection search (also known as binary search),
+ which is similar to what you do when you look a word up in the dictionary. You start in the middle and check to see whether the 
+ word you are looking for comes before the word in the middle of the list. If so, then you search the first half of the list the same way. 
+ Otherwise you search the second half.
+
+Either way, you cut the remaining search space in half. If the word list has 113,809 words, it will take about 17 steps to 
+find the word or conclude that it’s not there.
+
+Write a function called bisect that takes a sorted list and a target value and returns the index of the value in the list,
+ if it’s there, or None if it’s not.
+
+
+Or you could read the documentation of the bisect module and use that!
+
+def bisect_1(lst:list , val:int):
+    sorted_lst = sorted(lst)
+    for i in range(len(sorted_lst)): # this one does linear search not binary search
+        if val == sorted_lst[i]:
+            return i
+        else:
+            continue
+    return None
+print(bisect_1([1,2,3,4,5,6,7,8,3,3,2,6,7,8],5))
+
+#using bisect module
+import bisect
+def bisect2(lst:list, val:int):
+    sorted_lst2 = sorted(lst)
+    i = bisect.bisect_left(sorted_lst2 , val)
+    if i!=len(sorted_lst2) and val == sorted_lst2[i]: # without this line the function would still return the index where i should be instead of none
+        return i
+    return None
+print(bisect2([1,2,3,4,5,6,7,8,3,3,2,6,7,8],9))
+
+Exercise 9  
+Two words are a “reverse pair” if each is the reverse of the other.
+ Write a program that finds all the reverse pairs in the word list.
+
+
+def reverse_pairs():
+    rev_pairs = []
+    with open("reverse_pairs.txt") as f:
+        corp = list(f)
+        lst = []
+        for line in corp:
+            lst.append(line.strip())
+        for i in lst:
+            for j in lst:
+                if i == j[::-1]:
+                    rev_pairs.append((i,j))
+    return rev_pairs
+print(reverse_pairs())
+
+
+
+Exercise 10  
+Two words “interlock” if taking alternating letters from each forms a new word1. For example, 
+“shoe” and “cold” interlock to form “schooled.”
+
+Write a program that finds all pairs of words that interlock. Hint: don’t enumerate all pairs!
+Can you find any words that are three-way interlocked; that is, every third letter forms a word,
+ starting from the first, second or third?
+def interlock():
+    with open("interlocks.txt") as f:
+        clean_lst = [w.strip() for w in f]
+        word_set = set(clean_lst)
+    lst = []
+    for w in word_set:
+        a,b,c = w[0::3] , w [1::3],w[2::3]
+        if a in word_set and b in word_set and c in word_set:
+            lst.append((a,b,c,w))
+        else:
+            continue
+    if lst:
+        return lst
+    else:
+        return  None
+print(interlock())
+        
+Exercise 8  
+If you did Exercise 10.5, you already have a function named has_duplicates that takes a list as a parameter and returns True
+ if there is any object that appears more than once in the list.
+
+Use a dictionary to write a faster, simpler version of has_duplicates.
+
+def has_duplicates(lst:list):
+    my_dict = {}
+    for i in range(len(lst)):
+        my_dict[i] = lst[i] # we know key values aren't repetitive so we will take the index as key , element as value
+    seen = []
+    keys = my_dict.keys()
+    for n in keys:
+        if my_dict[n] not in seen:
+            seen.append(my_dict[n])
+        else:
+            return True
+    return False
+print(has_duplicates([1,2,3,4,9,8,7,1,2,5]))
+print(has_duplicates([1,2,3,4,9]))
+    
+
+
+Exercise 9  
+
+Two words are “rotate pairs” if you can rotate one of them and get the other (see rotate_word in Exercise 8.12).
+
+Write a program that reads a wordlist and finds all the rotate pairs.
+
+def rotatePairs():
+    with open ("5000_common.txt") as f:
+        lst = [w.strip() for pairs in f for w in pairs.split(",")]
+        set_lst = set(lst)
+    def rotate(word,n):
+        return word[n:]+word[:n]
+    rev = []
+    rot= []
+    for i in set_lst:
+        for j in set_lst:
+            if i == j[::-1]:
+                rev.append((i,j))
+            elif i != j:
+                for n in range(1,len(j)):
+                    if rotate(j,n) == i:
+                        rot.append((i,j))
+                        break
+    return (f"reversals are :{rev} and rotates are : {rot}")
+print(rotatePairs())
+
+
+
+Exercise 10  
+Here’s another Puzzler from Car Talk4:
+
+This was sent in by a fellow named Dan O’Leary. He came upon a common one-syllable, five-letter word recently that has the following unique
+ property. When you remove the first letter, the remaining letters form a homophone of the original word, that is a word that sounds exactly
+   the same. Replace the first letter, that is, put it back and remove the second letter and the result is yet another homophone of the original
+     word. And the question is, what’s the word?
+Now I’m going to give you an example that doesn’t work. Let’s look at the five-letter word, ‘wrack.’ W-R-A-C-K, you know
+ like to ‘wrack with pain.’ If I remove the first letter, I am left with a four-letter word, ’R-A-C-K.’ As in
+ , ‘Holy cow, did you see the rack on that buck! It must have been a nine-pointer!’ It’s a perfect homophone. If you put the ‘w’ back, 
+ and remove the ‘r,’ instead, you’re left with the word, ‘wack,’ which is a real word, it’s just not a homophone of the other two words.
+
+But there is, however, at least one word that Dan and we know of, which will yield two homophones if you remove either of the first 
+two letters to make two, new four-letter words. The question is, what’s the word?
+
+
+You can use the dictionary from Exercise 11.1 to check whether a string is in the word list.
+
+To check whether two words are homophones, you can use the CMU Pronouncing Dictionary. 
+You can download it from www.speech.cs.cmu.edu/cgi-bin/cmudict or from thinkpython.com/code/c06d and you can also download 
+thinkpython.com/code/pronounce.py, which provides a function named read_dictionary that reads the pronouncing dictionary and returns a
+ Python dictionary that maps from each word to a string that describes its primary pronunciation.
+
+Write a program that lists all the words that solve the Puzzler. You can see my solution at thinkpython.com/code/homophone.py.
+def id_homophones():
+    with open("cmu_dict.txt") as f:
+        lst = [line.strip() for line in f]
+    my_dict = {}
+    for w in lst:
+        i= w.lower().split()[0]
+        j=w.lower().split()[1:]
+        my_dict[i]=j
+    homophones_dict =[]
+    for i in my_dict.keys():
+        f = i[1:]
+        y= i[0]+i[2:]
+        if f not in my_dict.keys() or y not in my_dict.keys():
+            continue
+        elif my_dict[i]==my_dict[f]:
+            homophones_dict.append((i,f))
+        elif my_dict[i]== my_dict[y]:
+            homophones_dict.append((i,y))
+    return homophones_dict
+print(id_homophones())         '''
+
+''''
+Define a procedure pointDist(p1, p2) that returns the distance between a point in
+two-dimensional space with coordinates p1 = (x1, y1) and another point with
+coordinates p2 = (x2, y2). Use math.sqrt (of type num -> float). Your function should
+have type ((num, num), (num, num)) -> float
+
+from math import sqrt
+def pointDist(p1,p2):
+    d= sqrt((p2[1]-p1[1])**2+(p2[0]-p1[0])**2)
+    return d
+print(pointDist([2,3],[5,6]))'''
+
+'''Define a procedure perpDist(p, l) that returns the unsigned (positive) distance
+between a point in two-dimensional space with coordinates p = (px, py) and a line
+with equation ax + by + c == 0, where l = (a, b, c). Use math.sqrt (of type num ->
+float). Your function should have type ((num, num), (num, num, num)) -> float.
+We don't necessarily expect you to remember or rederive this formula; try Google if
+you need help. You might find the function abs useful. 
+from math import sqrt
+def perpDist(p,l):
+    d = abs(l[0]*p[0]+l[1]*p[1]+l[2])/sqrt((l[0])**2+(l[1])**2)
+    return d
+print(perpDist([3,4],[4,5,6])) # we can use tuples too '''
+
+'''Define a procedure multIA(m, n), which returns the product of m and n, assuming that n
+is a positive integer. Don't use *; instead, use a for loop, and +. Even though we first
+asked you to do this with while, generally speaking, any iteration over a fixed set of
+values is clearer and easier to write as a for loop. Your function should have type (num,
+positiveInt) -> num 
+# sign correctness and abs were unnecessary
+def multIA(m,n):
+    total = 0
+    for i in range(n):
+        total += abs(m)
+    if m < 0:
+        return -total
+    elif m > 0:
+        return total
+    else:
+        return 0
+print(multIA(7,14))'''
+
+'''
+Write a procedure that takes a list as input and returns a new list with 
+alternating elements of the original list, starting with the first
+
+def everyOther(lst:list):
+    index = 0
+    new_lst =[]
+    for i in lst:
+        new_lst.append(lst[index])
+        index+=2
+        if index >= len(lst):
+            break
+    return new_lst
+print(everyOther(['this', 'is', 'a', 'sentence']))'''
+
+'''In Python you can use + to concatenate two lists. Write a procedure, called cat6(l)
+that takes a list as an argument and returns a list with the integer 6 concatenated to
+the end; the output will be a list with one more element that the input.
+
+def cat6(lst:list):
+    lst+=[6] # changes the original list , lst+[6] to generate a new list
+    return lst
+print(cat6(['a','b','c','d','e']))'''
+
+'''Write a procedure, called myRange, that takes a single positive integer n as an argument
+and returns a list with elements starting with 0 and going up through n - 1. Don't use
+range! Use a while loop. 
+
+def myRange(n:int):
+    lst = []
+    i =0
+    while n > 0 :
+        lst.append(i)
+        i+=1
+        n-=1
+    return lst
+print(myRange(6))'''
+
+'''
+The mean (or average) of a list of n numbers is the sum of the numbers divided by n.
+For example, the mean of 2, 7, 3, 9, and 13 is (2+7+3+9+13)/5, or 6.8. Write a
+procedure mean that takes as input a list of numbers (of any length) and returns the
+mean. It should have type list(num) -> float.
+One thing to watch out for is an empty list as input. It's not clear that any numeric
+answer makes sense here. You should just return None
+You can implement this as an extremely short procedure if you use the Python built-in
+procedures sum, which returns the sum of the elements of a list, and len, which
+returns the length of a list.
+If your procedure says that the mean of 1 and 2 is 1, rather than 1.5, then you've
+been tricked by Python's division (/) operation. Be careful. 
+
+def mean(lst:list):
+    if len(lst)== 0:
+        return None
+    return sum(lst)/len(lst)
+print(mean([]))'''
+
+'''Implement a procedure stddev that takes a list of numbers as argument and returns
+the standard deviation. If the list has fewer than 2 elements, then the standard
+deviation should be 0.0. (Actually, if we want to be correct, the standard deviation of
+a list of 0 or 1 elements isn't defined, but returning 0.0 is okay for now.)
+The standard deviation of a list of n numbers is the square root of the following
+quantity: 1/(n-1) times the sum of (xi - m)2, where xi ranges over the elements of the
+list and m is the mean of the list. It is a measure of how much variation there is from
+the mean.
+You should try to write the procedure so that it uses list comprehension rather than an
+explicit loop. You should also use your mean procedure from the previous problem. In
+order to do that, include that code again (together with your new code) in the box
+below. In general, you can enter more than one procedure definition in the tutor code
+boxes, and the tutor does not remember code from one problem to the next.
+To compute the square root of a number, you can simply raise the number to the
+power of 0.5 using Python's exponentiation operator **. Alternatively, you can use the
+Python sqrt procedure, but you'll need to import it from the math package. In order
+to do that include
+from math import sqrt
+as the first line in your code. 
+from math import sqrt
+
+def stddev(lst:list):
+    if len(lst) == 0 or len(lst) == 1:
+        return 0
+    def mean(lst:list):
+        return sum(lst)/len(lst)
+    total = 0 
+    for i in lst:
+        total += (i-mean(lst))**2 # recomputing mean(lst) everytime isn't efficient
+    S = sqrt((1/(len(lst)-1))*(total)) # didn't use list comprehinsion 
+                                       #sum([(x - m) ** 2 for x in lst])
+    return S
+print(stddev([4,3,4,23,53,56]))'''
+
+'''Define a procedure piSeries(n), which computes a series approximation to pi with n
+terms'
+
+def piSeries(n:int):
+    numerator = [(-1)**k for k in range (n)]
+    denominator=[(2*k)+1 for k in range(n)]
+    estm = 0
+    index = 0
+    for i in range(n):
+        estm += (numerator[index])/denominator[index]
+        index+=1
+        if index > len(numerator) or index > len(denominator):
+            break
+    return estm*4
+print(piSeries(15000))'''
+
+'''Define a procedure evalPolynomial(coeffs, x), which returns the value of a polynomial
+where coeffs is a list of coefficients, from highest to lowest order . A
+straightforward way to evaluate polynomials is to explicitly add up the terms . Do
+this with list comprehension and sum.
+Hint: note that in a polynomial with coefficients, the highest power of the variable is
+.
+The type of this function should be (list(num), num) -> num.
+
+def evalPolynomial(coeffs:list , x):
+    return sum([coeffs[i]* (x**((len(coeffs)-1)-i) )for i in range(len(coeffs))])
+print(evalPolynomial([1,2,3], 3))'''
+
+'''Define a procedure numTerms(eps), which returns the smallest value of so that the
+value of
+is within eps of . Your function should have type float -> positiveInt. Assume that the
+procedure piSeries has been defined for you. You can use the constant math.pi for the
+true value of
+We advocate defining and using a helper procedure within(x, y, eps) that returns True
+if x is within eps of y. You can assume that the procedure between, which we defined in
+a previous exercise, is available to you.
+It's okay if your procedure is pretty slow; but you might find it interesting to think
+about how to make it take an amount of time that doesn't grow linearly with the
+answer. 
+
+from math import pi
+
+def piSeries(n:int):
+    numerator = [(-1)**k for k in range (n)]
+    denominator=[(2*k)+1 for k in range(n)]
+    estm = 0
+    index = 0
+    for i in range(n):
+        estm += (numerator[index])/denominator[index]
+        index+=1
+        if index > len(numerator) or index > len(denominator):
+            break
+    return estm*4
+
+def numTerms(eps):
+    n= 500
+    y= pi
+    while True:
+        x = piSeries(n)
+        if abs(x-y) <= eps:
+            return n
+        n+=500
+for eps in [0.1, 0.01, 0.001, 0.0001]:
+    print(eps, numTerms(eps))'''
+
+'''
+Write a procedure zeroVector(n) that makes a one-dimensional array of dimension n
+filled with zeros. That is, it should be a list of n zeros. The type is int -> list(int).'''
+
+'''def zeroVector(n):
+    my_array = []
+    for i in range(n):
+        my_array.append(0)
+    return my_array
+
+Write a procedure zeroArray(m, n) that makes a two-dimensional array of dimension m
+by n filled with zeros. That is, it should be a list of m lists, each of which is a list of n
+zeros. The type is (int, int) -> list(list(int))
+So, for example,
+>>> zeroArray(3, 4)
+[[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
+Another way that people sometimes speak of the shape of arrays is in terms of rows
+and columns. So, this array has three rows and four columns.
+A nice solution to this problem is to use the zeroVector procedure you just wrote in an
+earlier exercise as a part of your answer. We have made our definition of zeroVector
+available, so you can just go ahead and use it here
+
+def zeroArray(m,n):
+    return [zeroVector(n) for _ in range(m)]
+arr = zeroArray(3,4)
+
+If you did
+v = zeroArray(3, 4)
+what expression would you use to change the third element of the second row of v to
+have value 6? 
+arr[1][2] = 6
+
+print(arr)'''
+
+'''Write a procedure sumArray(a) that takes a two-dimensional array, a, and returns the
+sum of all of its elements.
+Try to think of two different ways to do it, and which one might be better. Compare
+your solutions to the ones we provide.
+
+def sumArray(a):
+    sum_lst = []
+    for i in a :
+        sum_lst.append(sum(i))
+    return sum(sum_lst)# one way
+    return sum([sum(i) for i in a]) # another way 
+print(sumArray([[1,2,3],[4,5,6]]))'''
+
+'''Let's assume we are going to represent association lists as lists of two-element lists,
+where the first element is the key and the second is the value. So, we would
+implement emptyAlist as
+def emptyAlist():
+return []
+Now, you should implement the procedure addEntry(al, k, v), where al is an
+association list, k is a key, and v is the value you'd like to associate with that key.
+It should change the alist by adding a new two-element list, containing the key and
+the value, to the end of the original list. It doesn't matter what value this procedure
+returns. '''
+
+def emptyAlist():
+    return []
+
+def addEntry(al:list,k,v):
+    return al.append([k,v]) # here the mehtod list.append , modifies the function and returns none , better to append on a separate line and return the list itself
+
+alist = emptyAlist()
+addEntry(alist,"cats",5)
+addEntry(alist,"dogs",6)
+
+'''Now, you should implement the procedure lookup(al, k), where al is an association list
+and k is a key.
+If there is an entry with key k it should return the two-element list containing the
+key and the value, otherwise it should return None. (Remember that the Python shell
+doesn't print None when it is the result of evaluating an expression, so don't be
+surprised if you try a failed lookup and no result gets printed out.) '''
+
+def lookup(al,k):
+    for i in range(len(al)):
+        if al[i][0] == k:
+            return al[i]
+    return None
+print(lookup(alist,"dogs"))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

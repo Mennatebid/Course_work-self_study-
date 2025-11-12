@@ -1,0 +1,34 @@
+def SpyEval(form,env = globalenv):
+    if isinstance(form,int):
+        return form
+    elif form[0] == 'begin':
+        val = None
+        for i in form[1:]:
+            val = SpyEval(i,env)
+        return val
+    elif isinstance(form,str):
+        return env.lookup(form)
+    elif form[0] == 'set':
+        (tag,lhs,rhs)= form
+        env.add(lhs,SpyEval(rhs,env))
+    elif form[0]=='def':
+        (tag,name,params,body)=form
+        env.add(name,function(params,body,env))
+    elif form[0] == 'if':
+        (tag, condition, ifbody, elsebody) = form 
+        if SpyEval(condition,env):
+            return SpyEval(ifbody,env)
+        else:
+            return SpyEval(elsebody,env)
+    elif isinstance(form,list):
+        f = SpyEval(form[0],env)
+        return SpyEval(f.body, Environment(f.formal, [SpyEval(x,env) for x in form[1:]], f.environment))
+    elif form[0] == 'class':
+        (tag, name, super, body) = form
+        if super == 'None':
+            super = globalEnv
+        classEnv = Environment(parent = super)
+        env.add(name, Primitive(lambda : Environment(parent = classEnv)))
+        spyEval(body, classEnv)
+    else:
+        return Error("Illegal expression: "+str(form))

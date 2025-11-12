@@ -1,0 +1,102 @@
+'''Write the definition of a Python procedure fib, such that fib(n) returns
+the nth Fibonacci number. Recall the definition of fib
+
+def Fib(num):
+    if num == 0 or num ==1:
+        return num
+    return Fib(num -1)+ Fib(num-2)
+print(Fib(4))'''
+
+'''Define a Python class V2, which represents two-dimensional vectors and
+supports the following operations:
+• Create a new vector out of two real numbers: v = V2(1.1, 2.2)
+• Convert a vector to a string (with the __str__ method)
+• Access the components (with the getX and getY methods)
+• Add two V2s to get a new V2 (with add and __add__ methods)
+• Multiply a V2 by a scalar (real or int) and return a new V2 (with the mul
+and __mul__ methods)
+
+class V2:
+    def __init__(self,x,y):
+        self.x=x
+        self.y=y
+    def __str__(self):
+        return f'{self.x , self.y}'
+    def getx(self):
+        return self.x
+    def gety(self):
+        return self.y
+    def __add__(self,other):
+        return V2(self.x+ other.x , self.y + other.y)
+    def __mul__(self , scalar):
+        return V2(scalar * self.x, scalar*self.y)
+A= V2(3,5)
+B = V2(5,6)
+print(A.__add__(B))'''
+
+'''Define a Python class Polynomial which provides
+ methods for performing algebraic operations on polynomials.'''
+
+from itertools import zip_longest
+class polynomial:
+    def __init__(self, coeffs):
+        self.coeffs = coeffs
+    def __str__(self):
+        terms=[]
+        n = len(self.coeffs)
+        for i,c in enumerate(self.coeffs):
+            power = n - i-1
+            if c == 0:
+                continue
+            if power == 0 :
+                terms.append(f'{c:1f}')
+            elif power == 1 : 
+                terms.append(f'{c:.1f}z')
+            else:
+                terms.append(f'{c:.1f} z ** {power}')
+        return " + ".join(terms)
+    def __add__(self,other):
+        sum_coeffs = [x+y for x,y in zip_longest(self.coeffs,other.coeffs,fillvalue=0)]
+        return polynomial(sum_coeffs)
+    def __mul__(self,other):
+        mul_coeffs = [x*y for x,y in zip_longest(self.coeffs,other.coeffs,fillvalue=0)]
+        return polynomial(mul_coeffs)
+
+p1 = polynomial([1,2,3,0])
+p2 = polynomial([2,3,4])
+print(p1.__mul__(p2))
+''' 
+Edit the template definition of the Polynomial class in designLab01Work.py, and add the following:
+• An attribute called coeffs, which is the list of coefficients used to create the instance. It must
+have this name or the tests in the tutor will fail.
+• __init__(self, coefficients): initializes the coeffs attribute to be a list of floating-point
+coefficient values.
+coeff(self, i): returns the coefficient of the xi • term of the polynomial. For example, if the
+polynomial is x4 − 7x3 + 10x2 − 4x + 6, then coeff(self, 3) is -7.
+• add(self, other): returns a new Polynomial representing the sum of Polynomials self
+and other. Be sure that performing any operation on polynomials, e.g. p1 + p2, does not
+change the original value of p1 or p2.
+• mul(self, other): returns a new Polynomial representing the product of Polynomials
+self and other
+• __str__(self): converts a Polynomial into a string. Do the simplest thing that shows the
+coefficients; rememberthat str(x) turns x, whateverit is, into a string. After you’re done with
+everything else, go back and change your __str__ method to print polynomials out as they
+are shown in the transcript at the end. This is not required; do it only if you have time and
+interest.
+6
+Design Lab 1 6.01 Fall 2011
+• val(self, v): (you can use Horner's rule )returns the numerical result of evaluating the polynomial when x equals v.
+• roots(self): returns a list containing the root or roots of first or second order polynomials
+(for orders other than 1 and 2, just print an error message saying that you don’t handle them).
+If the roots are real-valued, then return the roots as floats. If a root has a non-zero imaginary
+part, then return it as a complex number. Python has built-in facilities for handling complex
+numbers. For example, complex(3,2) represents a complex number whose real part is 3 and
+whose imaginary part is 2. This same complex number could also be written as 3+2j. The
+real part of a complex number z can be obtained with z.real. You can take square roots by
+using a fractional exponent. For example 3**0.5 represents the square root of 3. Similarly
+complex(3,2)**0.5 represents the square root of the complex number 3 + 2j. Python tries
+to return a real-valued result when it raises a real number to a fractional power. It returns a
+complex-valued result when it raises a complex number to a fractional power. Therefore (­
+4)**0.5 generates an error, while complex(-4,0)**0.5 returns an answer that is close to
+2j.''''
+
