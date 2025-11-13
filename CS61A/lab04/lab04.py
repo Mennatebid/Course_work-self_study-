@@ -7,9 +7,9 @@ def divide(quotients, divisors):
     >>> divide(range(1, 5), range(20, 25))
     {1: [20, 21, 22, 23, 24], 2: [20, 22, 24], 3: [21, 24], 4: [20, 24]}
     """
-    return {____: ____ for ____ in ____}
-import sys
-print(sys[1])
+
+    return  {q: [d for d in divisors if d%q == 0] for q in quotients}
+divide([3, 4, 5], [8, 9, 10, 11, 12])
 
 def buy(fruits_to_buy, prices, total_amount):
     """Print ways to buy some of each fruit so that the sum of prices is amount.
