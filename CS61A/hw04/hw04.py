@@ -13,6 +13,16 @@ def shuffle(s):
     """
     assert len(s) % 2 == 0, 'len(seq) must be even'
     "*** YOUR CODE HERE ***"
+    lst = []
+    first = s[0:int(len(s)/2)]
+    rest = s[int(len(s)/2):]
+    tup = list(zip(first, rest))
+    for i in tup:
+        for j in i:
+            lst.append(j)
+    return lst
+letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
+print(shuffle(letters))
 
 
 def deep_map(f, s):
